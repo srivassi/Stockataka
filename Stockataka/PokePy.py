@@ -24,19 +24,19 @@ def return_data(data_query, token):
 
 
 def sector_type(sector):
-    if sector == "Services":
+    if sector == "services":
         poke_type = "normal"
-    elif sector == "Manufacturing":
+    elif sector == "manufacturing":
         poke_type = "fighting"
-    elif sector == "Aviation":
+    elif sector == "aviation":
         poke_type = "flying"
-    elif sector == "Transport":
+    elif sector == "transport":
         poke_type = "ground"
-    elif sector == "Energy":
+    elif sector == "energy":
         poke_type = "fire"
-    elif sector == "Health":
+    elif sector == "health":
         poke_type = "water"
-    elif sector == "Technology":
+    elif sector == "technology":
         poke_type = "electric"
     else:
         poke_type = "unknown"
@@ -44,11 +44,10 @@ def sector_type(sector):
 
 
 def find_pokemon(poke_type):
-    matching_pokemon = []
-    query = "/api/v2/pokemon/"
+    matching_pokemon = {}
+    query = "/api/v2/pokemon/?limit=100&offset=0"
     response_data = return_data(query, token)
     data = json.loads(response_data)
-    print(data)
     # Loop through each Pokémon result in the data
     for pokemon in data.get('results', []):
         poke_url = pokemon['url'][pokemon['url'].find("/api"):]
@@ -57,7 +56,9 @@ def find_pokemon(poke_type):
         # Check Pokémon's type
         for poke_type_info in poke_info.get('types', []):
             if poke_type_info['type']['name'] == poke_type:
-                matching_pokemon.append(pokemon['name'])
+                matching_pokemon[pokemon['name']]= poke_info['id']
                 break
 
     return matching_pokemon
+
+print(find_pokemon("electric"))
