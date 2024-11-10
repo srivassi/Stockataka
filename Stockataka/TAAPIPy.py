@@ -5,16 +5,68 @@ from pprint import pprint
 # Token for API authentication
 token = "sk_live_KLTxJeItYDWnMh8tiyDEXHMVti9gSNto"
 
-# Define sector and associated types
-sectors = {
-    "technology": ["AAPL", "GOOGL", "AMD", "MSFT", "NVDA", "META"],
-    "health": ["AMGN", "GILD", "MRNA", "ISRG", "REGN", "ILMN"],
-    "energy": ["ENPH", "FSLR", "FCX", "COP", "XOM", "OXY"],
-    "raw_materials": ["FCX", "ALB", "NUE", "LAC", "NEM", "CCL"],
-    "transport": ["TSLA", "LUV", "JBHT", "UPS", "CSX", "FDX"],
-    "manufacturing": ["AMAT", "TXN", "HON", "INTC", "ADI", "LRCX"],
-    "services": ["AMZN", "BKNG", "SBUX", "COST", "EBAY", "MAR"]
+company_data = {
+    "sectors": {
+        "technology": [
+            {"symbol": "AAPL", "name": "Apple"},
+            {"symbol": "GOOGL", "name": "Google"},
+            {"symbol": "MSFT", "name": "Microsoft"},
+            {"symbol": "NVDA", "name": "NVIDIA"},
+            {"symbol": "META", "name": "Meta"},
+            {"symbol": "AMD", "name": "Advanced Micro Devices Inc"}
+        ],
+        "health": [
+            {"symbol": "AMGN", "name": "Amgen"},
+            {"symbol": "GILD", "name": "Gilead Sciences"},
+            {"symbol": "MRNA", "name": "Moderna"},
+            {"symbol": "ISRG", "name": "Intuitive Surgical"},
+            {"symbol": "REGN", "name": "Regeneron Pharmaceuticals"},
+            {"symbol": "ILMN", "name": "Illumina"}
+        ],
+        "energy": [
+            {"symbol": "ENPH", "name": "Enphase Energy"},
+            {"symbol": "FSLR", "name": "First Solar"},
+            {"symbol": "FCX", "name": "Freeport-McMoRan"},
+            {"symbol": "COP", "name": "ConocoPhillips"},
+            {"symbol": "XOM", "name": "Exxon Mobil"},
+            {"symbol": "OXY", "name": "Occidental Petroleum Corp"}
+        ],
+        "raw_materials": [
+            {"symbol": "FCX", "name": "Freeport-McMoRan"},
+            {"symbol": "NEM", "name": "Newmont Mining"},
+            {"symbol": "NUE", "name": "Nucor"},
+            {"symbol": "ALB", "name": "Albemarle"},
+            {"symbol": "CF", "name": "CF Industries Holdings, Inc"},
+            {"symbol": "CCL", "name": "Carnival Corporation"}
+        ],
+        "transport": [
+            {"symbol": "TSLA", "name": "Tesla"},
+            {"symbol": "LUV", "name": "Southwest Airlines"},
+            {"symbol": "JBHT", "name": "J.B. Hunt Transport Services"},
+            {"symbol": "UPS", "name": "United Parcel Service"},
+            {"symbol": "CSX", "name": "CSX Corporation"},
+            {"symbol": "FDX", "name": "FedEx"}
+        ],
+        "manufacturing": [
+            {"symbol": "AMAT", "name": "Applied Materials"},
+            {"symbol": "TXN", "name": "Texas Instruments"},
+            {"symbol": "HON", "name": "Honeywell"},
+            {"symbol": "INTC", "name": "Intel"},
+            {"symbol": "ADI", "name": "Analog Devices"},
+            {"symbol": "LRCX", "name": "Lam Research"}
+        ],
+        "services": [
+            {"symbol": "AMZN", "name": "Amazon"},
+            {"symbol": "BKNG", "name": "Booking Holdings"},
+            {"symbol": "SBUX", "name": "Starbucks"},
+            {"symbol": "COST", "name": "Costco"},
+            {"symbol": "EBAY", "name": "eBay"},
+            {"symbol": "MAR", "name": "Marriott"}
+        ]
+    }
 }
+
+
 
 def fetch_data_from_api(path, api_key):
     """
@@ -43,7 +95,6 @@ def fetch_data_from_api(path, api_key):
         print("Error: Failed to parse JSON response.")
         return None
 
-
 def get_candle_average_price(symbol, exchange, interval, backtrack, type):
     """
     Fetches the average price for a given symbol from the taapi API.
@@ -65,10 +116,9 @@ def get_candle_average_price(symbol, exchange, interval, backtrack, type):
     print(f"Error: 'value' key missing in the response for backtrack={backtrack}.")
     return None
 
-
 def get_sector(symbol):
     """
-    Determines the sector for a given symbol.
+    Determines the sector for a given symbol using the new `company_data` structure.
 
     Parameters:
     - symbol: The stock symbol to check.
@@ -76,68 +126,17 @@ def get_sector(symbol):
     Returns:
     - The sector to which the symbol belongs, or None if the symbol is not found.
     """
-    for sector, symbols in sectors.items():
-        if symbol in symbols:
-            return sector
+    # Iterate through each sector in the company_data
+    for sector, companies in company_data["sectors"].items():
+        # Iterate through companies in the sector
+        for company in companies:
+            if company["symbol"] == symbol:
+                return sector
     return None
-
-def get_full_company_name(symbol):
-    """
-    Given a company symbol, returns the full company name. This is a helper function for mapping symbols
-    to full company names in the sectors list.
-
-    Parameters:
-    - symbol: The stock symbol (e.g., "AMZN").
-
-    Returns:
-    - The full company name (e.g., "Amazon").
-    """
-    company_mapping = {
-        "AMZN": "Amazon",
-        "COST": "Costco",
-        "SBUX": "Starbucks",
-        "BKNG": "Booking Holdings",
-        "MAR": "Marriott",
-        "EBAY": "eBay",
-        "HON": "Honeywell",
-        "AMAT": "Applied Materials",
-        "LRCX": "Lam Research",
-        "TXN": "Texas Instruments",
-        "INTC": "Intel",
-        "ADI": "Analog Devices",
-        "FCX": "Freeport-McMoRan",
-        "NEM": "Newmont Mining",
-        "NUE": "Nucor",
-        "ALB": "Albemarle",
-        "LAC": "Lithium Americas Corp",
-        "CCL": "Carnival Corporation",
-        "TSLA": "Tesla",
-        "LUV": "Southwest Airlines",
-        "JBHT": "J.B. Hunt Transport Services",
-        "UPS": "United Parcel Service",
-        "CSX": "CSX Corporation",
-        "FDX": "FedEx",
-        "ENPH": "Enphase Energy",
-        "FSLR": "First Solar",
-        "MRNA": "Moderna",
-        "ISRG": "Intuitive Surgical",
-        "AMGN": "Amgen",
-        "GILD": "Gilead Sciences",
-        "REGN": "Regeneron Pharmaceuticals",
-        "ILMN": "Illumina",
-        "AAPL": "Apple",
-        "GOOGL": "Google",
-        "MSFT": "Microsoft",
-        "NVDA": "NVIDIA",
-        "META": "Meta",
-    }
-
-    return company_mapping.get(symbol, "Unknown Company")
-
 
 def build_result():
     """
-    Builds a nested result dictionary with sectors and company data.
+    Builds a nested result dictionary with sectors and company data based on the new company_data structure.
 
     Returns:
     - A dictionary containing sector names as keys and their corresponding companies' details.
@@ -147,43 +146,16 @@ def build_result():
     interval = "1w"  # Weekly interval
     type = "stocks"  # Stock type
 
-    # Define a dictionary of sectors with full company names
-    sectors_full_name = {
-        "services": ["Amazon", "Costco", "Starbucks", "Booking Holdings", "Marriott", "eBay"],
-        "manufacturing": ["Honeywell", "Applied Materials", "Lam Research", "Texas Instruments", "Intel",
-                          "Analog Devices"],
-        "raw_materials": ["Freeport-McMoRan", "Newmont Mining", "Nucor", "Albemarle", "Lithium Americas Corp", "Carnival Corporation"],
-        "transport": ["Tesla", "Southwest Airlines", "J.B. Hunt Transport Services", "United Parcel Service", "CSX Corporation",
-                      "FedEx"],
-        "energy": ["Enphase Energy", "First Solar", "Freeport-McMoRan", "ConocoPhillips", "Exxon Mobil",
-                   "Pioneer Natural Resources"],
-        "health": ["Amgen", "Gilead Sciences", "Moderna", "Intuitive Surgical", "Regeneron Pharmaceuticals",
-                   "Illumina"],
-        "technology": ["Apple", "Google", "Microsoft", "NVIDIA", "Meta", "Adobe"]
-    }
-
-    # Loop through sectors and companies
-    for sector, companies in sectors_full_name.items():
+    # Loop through each sector and its companies in the new company_data structure
+    for sector, companies in company_data["sectors"].items():
         result[sector] = {}
 
-        # Loop through each company in the sector with its full name
-        for i, company_name in enumerate(companies):
+        # Loop through each company in the sector
+        for i, company in enumerate(companies):
             company_key = f"company_{i}"
 
-            # Find the corresponding symbol for the company (assuming the symbol is in the 'sectors' dict)
-            symbol = None
-            # Iterate over all sectors and their respective companies
-            for sec, syms in sectors.items():
-                # Check if the full company name matches any of the names in the sector's company list
-                if company_name in [get_full_company_name(comp) for comp in syms]:
-                    # Find the corresponding symbol for the company name
-                    symbol = next(comp for comp in syms if company_name == get_full_company_name(comp))
-                    break  # Stop once we find the matching company
-
-            # If no symbol found, skip the company
-            if symbol is None:
-                print(f"Symbol not found for {company_name}. Skipping.")
-                continue
+            symbol = company["symbol"]
+            company_name = company["name"]
 
             # Fetch the current price for the company
             current_price = get_candle_average_price(symbol, exchange, interval, 0, type)
@@ -203,10 +175,8 @@ def build_result():
                 avg_price = get_candle_average_price(symbol, exchange, interval, backtrack, type)
                 if avg_price is not None:
                     result[sector][company_key]["average_prices"][f"backtrack_{backtrack}"] = avg_price
-
-    return result
-
-
+    vals = {"result": result}
+    return vals
 
 def display_result(result):
     """
@@ -236,16 +206,9 @@ def main():
     if current_price is not None:
         print(f"Current Price for {symbol}: {current_price}")
 
-    # # Loop through backtrack from 0 to 29 and fetch average prices
-    # for backtrack in range(30):
-    #     avg_price = get_candle_average_price(symbol, exchange, interval, backtrack, type)
-    #     if avg_price is not None:
-    #         print(f"Average Price for {symbol} with backtrack {backtrack}: {avg_price}")
-
     # Build and display the result dictionary
     result = build_result()
     display_result(result)
-
 
 if __name__ == "__main__":
     main()
