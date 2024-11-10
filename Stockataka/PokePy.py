@@ -1,16 +1,26 @@
 import http.client
 import json
 from flask import json
+from pprint import pprint
+
 
 token = "sk_live_fovP7Cq6R9x9eDKRaMx3PCSU1aQMrnOR"
+types = ["normal", "fighting", "rock", "ground", "fire", "water", "electric"]
+type_sector = {"normal":"services",
+               "fighting":"manufacturing",
+               "rock":"raw materials",
+               "ground":"transport",
+               "fire":"energy",
+               "water":"health",
+               "electric":"technology"}
 
 
-def return_data(data_query, token):
+def return_data(data_query, api_key):
     conn = http.client.HTTPSConnection("pokeapi.p.sulu.sh")
 
     headers = {
         'Accept': "application/json",
-        'Authorization': f"Bearer {token}"
+        'Authorization': f"Bearer {api_key}"
     }
     conn.request("GET", data_query, headers=headers)
     res = conn.getresponse()
@@ -29,8 +39,8 @@ def sector_type(sector):
         poke_type = "normal"
     elif sector == "manufacturing":
         poke_type = "fighting"
-    elif sector == "aviation":
-        poke_type = "flying"
+    elif sector == "raw materials":
+        poke_type = "rock"
     elif sector == "transport":
         poke_type = "ground"
     elif sector == "energy":
@@ -42,11 +52,6 @@ def sector_type(sector):
     else:
         poke_type = "unknown"
     return poke_type
-
-
-import json
-
-import json
 
 
 def find_pokemon(poke_type):
@@ -79,12 +84,13 @@ def find_pokemon(poke_type):
                     icon_url = poke_info['sprites']['other']['dream_world'].get('front_default', None)
 
                     # Add Pokémon's name, id, attack, and icon to the dictionary
-                    matching_pokemon[pokemon['name']] = {
+                    matching_pokemon[str(poke_type)+"_"+str(len(matching_pokemon))] = {
+                        "name": pokemon['name'],
                         "id": poke_info['id'],
                         "attack": attack_stat,
                         "icon": icon_url
                     }
-                    break  # Stop checking other types for this Pokémon
+                break  # Stop checking other types for this Pokémon
 
             # Stop if we’ve collected 6 matching Pokémon
             if len(matching_pokemon) == 6:
@@ -100,8 +106,20 @@ def find_pokemon(poke_type):
     return matching_pokemon
 
 
-def candle_sections(candle_values):
-    return 0
+def all_pokemon():
+    total_pokemon = {"result": {}}
+    for type in types:
+        # Find matching Pokémon for the current type
+        matching_pokemon = find_pokemon(type)
+
+        # Store the matching Pokémon under the current type in the result dictionary
+        total_pokemon["result"][type] = matching_pokemon
+
+    return total_pokemon
+
+'''
+def pokemon_sector(total_pokemon, total_companies):
+'''
 
 
-print(find_pokemon("water"))
+pprint(all_pokemon())
