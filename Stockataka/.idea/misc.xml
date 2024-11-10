@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-<<<<<<< HEAD
-  <component name="Black">
-    <option name="sdkName" value="Python 3.13 (Stockataka) (2)" />
-  </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13 (Stockataka) (2)" project-jdk-type="Python SDK" />
-=======
+
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.9 (Stockataka)" project-jdk-type="Python SDK" />
->>>>>>> 1f20d134c4d7f119fadf0cb2831b79771d95bcc3
   <component name="PyCharmProfessionalAdvertiser">
     <option name="shown" value="true" />
   </component>

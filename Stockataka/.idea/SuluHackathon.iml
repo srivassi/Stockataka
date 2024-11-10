@@ -4,11 +4,7 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-<<<<<<< HEAD
-    <orderEntry type="jdk" jdkName="Python 3.13 (Stockataka) (2)" jdkType="Python SDK" />
-=======
     <orderEntry type="jdk" jdkName="Python 3.9 (Stockataka)" jdkType="Python SDK" />
->>>>>>> 1f20d134c4d7f119fadf0cb2831b79771d95bcc3
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
