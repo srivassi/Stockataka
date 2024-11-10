@@ -108,18 +108,30 @@ def find_pokemon(poke_type):
 
 def all_pokemon():
     total_pokemon = {"result": {}}
-    for type in types:
-        # Find matching Pokémon for the current type
-        matching_pokemon = find_pokemon(type)
-
+    for pokemon_type in types:  # Loop over the defined types
+        matching_pokemon = find_pokemon(pokemon_type)  # Assuming find_pokemon function exists
         # Store the matching Pokémon under the current type in the result dictionary
-        total_pokemon["result"][type] = matching_pokemon
+        total_pokemon["result"][pokemon_type] = matching_pokemon
 
     return total_pokemon
 
-'''
-def pokemon_sector(total_pokemon, total_companies):
-'''
+
+def rank_pokemon(data):
+    ranked_data = {}
+
+    for p_type, p_list in data['result'].items():
+        # Sort Pokémon in each type by attack power in descending order
+        sorted_pokemon = sorted(p_list.items(), key=lambda x: x[1]['attack'], reverse=True)
+
+        # Assign rank based on sorted position
+        ranked_data[p_type] = {
+            f"{name}_ranked": {**pokemon, "rank": rank}
+            for rank, (name, pokemon) in enumerate(sorted_pokemon)
+        }
+
+    return ranked_data
 
 
-pprint(all_pokemon())
+
+pprint(rank_pokemon(all_pokemon()))
+
