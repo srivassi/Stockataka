@@ -125,13 +125,37 @@ def rank_pokemon(data):
 
         # Assign rank based on sorted position
         ranked_data[p_type] = {
-            f"{name}_ranked": {**pokemon, "rank": rank}
+            f"{name}": {**pokemon, "rank": rank}
             for rank, (name, pokemon) in enumerate(sorted_pokemon)
         }
 
     return ranked_data
 
 
+def pokemon_company(pokemon_data, company_data):
+    combined_data = {}
 
-pprint(rank_pokemon(all_pokemon()))
+    # Iterate over each Pokémon type and corresponding sector
+    for (pokemon_type, pokemon_list), (sector, companies) in zip(pokemon_data.items(), company_data['result'].items()):
+        combined_data[pokemon_type] = {}
 
+        # Loop through each Pokémon in the type
+        for pokemon_key, pokemon_info in pokemon_list.items():
+            # Find the company with the matching rank
+            matching_company = None
+            for company_key, company_info in companies.items():
+                if pokemon_info['rank'] == company_info['rank']:
+                    matching_company = company_info
+                    break
+
+            # If a matching company is found, combine their data
+            if matching_company:
+                combined_data[pokemon_type][pokemon_key] = {
+                    **pokemon_info,  # Pokémon information
+                    "company_name": matching_company["name"],
+                    "symbol": matching_company["symbol"],
+                    "share_price": matching_company["share_price"],
+                    "historical_prices": matching_company["historical_prices"]
+                }
+
+    return combined_data
