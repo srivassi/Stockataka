@@ -51,7 +51,7 @@ def get_candle_roc(symbol, exchange, interval, backtrack, type):
     }
 
     # Define path with parameters for the ROC endpoint
-    path = f"/roc?exchange={exchange}&symbol={symbol}&interval={interval}&backtrack={backtrack}&type={type}"
+    path = f"/avgprice?exchange={exchange}&symbol={symbol}&interval={interval}&backtrack={backtrack}&type={type}"
 
     # Send request and process response
     conn.request("GET", path, headers=headers)
