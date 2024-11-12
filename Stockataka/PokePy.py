@@ -4,7 +4,7 @@ from flask import json
 from pprint import pprint
 
 
-token = "sk_live_fovP7Cq6R9x9eDKRaMx3PCSU1aQMrnOR"
+token = "API_KEY"
 types = ["normal", "fighting", "rock", "ground", "fire", "water", "electric"]
 type_sector = {"normal":"services",
                "fighting":"manufacturing",
