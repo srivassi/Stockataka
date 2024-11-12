@@ -1,6 +1,6 @@
 # Stockataka - Sulu Full Stack-athon Project
 
-Welcome to **Stockataka**, an EduTech solution blending education and entertainment, created as part of the **Sulu Full Stack-athon**! This platform uses the **Pokemon API** and **Technical Analysis API** to simplify financial education. By mapping Pokemon to company stocks based on attack stats and matching industries with relevant Pokemon types, Stockataka makes learning about finance fun, engaging, and memorable.
+Welcome to **Stockataka**, an EduTech solution blending education and entertainment, created as part of the **Sulu Full Stack-athon**! This platform uses the **Pokemon API** and **Technical Analysis API** to simplify financial education. By mapping Pokemon to company stocks based on attack stats and matching industries with relevant Pokemon types, Stockataka makes learning about finance fun, engaging, and memorable. Thanks to the **Sulu** and **DUCSS** for providing the opportunity to innovate!
 
 ## Inspiration
 
@@ -50,4 +50,4 @@ Finance and stock markets can be complex and intimidating. With Stockataka, we a
 - Siddhi Srivastav
 - Ryan Dhawan
 - Christine Chan
-Thanks to the **Sulu** and **DUCSS** for providing the opportunity to innovate!
+
