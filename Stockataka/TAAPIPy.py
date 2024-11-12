@@ -3,7 +3,7 @@ import json
 from pprint import pprint
 
 # Token for API authentication
-token = "sk_live_KLTxJeItYDWnMh8tiyDEXHMVti9gSNto"
+token = "API_KEY"
 
 company_data = {
     "sectors": {
